@@ -28,7 +28,7 @@
             position: relative;
             width: 90%;
             max-width: 450px;
-            min-height: 400px;
+            min-height: 440px;
             z-index: 10;
         }
 
@@ -72,7 +72,7 @@
 
         /* Typography & Style Elements */
         h1 {
-            font-size: 2.4rem;
+            font-size: 2.2rem;
             background: linear-gradient(45deg, #ff758c, #ff7eb3, #e94560);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -80,7 +80,7 @@
         }
 
         p {
-            font-size: 1.1rem;
+            font-size: 1.05rem;
             color: #e0e0e0;
             line-height: 1.6;
             margin-bottom: 1.5rem;
@@ -94,6 +94,25 @@
             margin-bottom: 0.5rem;
         }
 
+        /* Quiz input styling */
+        .quiz-input {
+            width: 80%;
+            padding: 0.8rem;
+            border-radius: 25px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            background: rgba(0, 0, 0, 0.2);
+            color: white;
+            text-align: center;
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .quiz-input:focus {
+            border-color: #ff758c;
+        }
+
         /* Decorative Polaroid Frame for Page 3 */
         .polaroid {
             background: white;
@@ -101,8 +120,8 @@
             box-shadow: 0 10px 25px rgba(0,0,0,0.3);
             transform: rotate(-3deg);
             margin-bottom: 1.5rem;
-            width: 200px;
-            height: 220px;
+            width: 180px;
+            height: 200px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -165,13 +184,15 @@
     <div class="card-container floating-card">
 
         <div class="page active" id="page1">
-            <div class="highlight-num">✨</div>
-            <h1>Hey You...</h1>
-            <p>I built something incredibly special just for you. Are you ready to see what it is?</p>
-            <button class="btn" onclick="nextPage(2)">Let's Open It! ➔</button>
+            <div style="font-size: 3.5rem; margin-bottom: 0.5rem;">🔒📱</div>
+            <h1>Identity Check!</h1>
+            <p>To unlock your birthday card, prove it's really you! What is the exact date of our very first meetup? (Use MM-DD format)</p>
+            <input type="text" id="quizAnswer" class="quiz-input" placeholder="Hint: XX-XX">
+            <button class="btn" onclick="checkQuiz()">Unlock Surprise ➔</button>
         </div>
 
         <div class="page" id="page2">
+            <div class="highlight-num">18</div>
             <h1>Happy Birthday! 🎂</h1>
             <p>Wishing you an absolutely breathtaking day filled with beautiful moments, laughter, and everything your heart desires!</p>
             <button class="btn" onclick="nextPage(3)">See Next Surprise ➔</button>
@@ -188,8 +209,10 @@
 
         <div class="page" id="page4">
             <h1>A Special Note ✍️</h1>
-            <p style="font-style: italic; font-size: 1.05rem; max-height: 180px; overflow-y: auto; padding-right: 5px;">
-                "May this upcoming year bring you endless opportunities, bright smiles, and unforgettable adventures. Never forget how amazing and bright you shine. Have the happiest of birthdays!"
+            <p style="font-style: italic; font-size: 0.95rem; max-height: 220px; overflow-y: auto; padding-right: 5px; text-align: left;">
+                Even though life has taken us in different directions and we don't talk anymore, I wanted to reach out and wish you the best on your special day. Today brought back a lot of memories of the times we used to share, and I genuinely look back on those moments with a lot of gratitude and warmth. We went through a lot together, and those memories still mean a lot to me.<br><br>
+                I truly hope that life is treating you incredibly well, that you are thriving in everything you do, and that you're surrounded by people who love and support you. I hope your day is filled with happiness, laughter, and everything you've been wishing for.<br><br>
+                Cheers to a wonderful birthday and a beautiful, successful year ahead!
             </p>
             <button class="btn" onclick="nextPage(5)">One Last Thing... ➔</button>
         </div>
@@ -205,20 +228,28 @@
 
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <script>
+        // Quiz Verification Logic
+        function checkQuiz() {
+            const userAnswer = document.getElementById('quizAnswer').value.trim();
+            
+            if (userAnswer === "11-24") {
+                nextPage(2);
+            } else {
+                alert("❌ Wrong date! Think carefully and try again! 🤔");
+            }
+        }
+
         // Page Navigation Logic
         function nextPage(pageNum) {
-            // Hide all pages
             document.querySelectorAll('.page').forEach(page => {
                 page.classList.remove('active');
             });
             
-            // Show target page
             const activePage = document.getElementById('page' + pageNum);
             activePage.classList.add('active');
 
-            // Trigger burst effects automatically on major pages
             if(pageNum === 2) {
-                confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
+                confetti({ particleCount: 150, spread: 80, origin: { y: 0.6 } });
             }
             if(pageNum === 5) {
                 confetti({ particleCount: 50, angle: 60, spread: 55, origin: { x: 0 } });
@@ -243,4 +274,6 @@
     </script>
 </body>
 </html>
+
+
 
