@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Happy 18th Birthday!</title>
+    <title>A Special Surprise For You ✨</title>
     <style>
         * {
             box-sizing: border-box;
@@ -12,145 +12,235 @@
         }
 
         body {
-            background: linear-gradient(135deg, #ffe5ec, #ffc2d1, #ffb3c6);
+            background: linear-gradient(135deg, #1a1a2e, #16213e, #0f3460);
             min-height: 100vh;
             display: flex;
-            justify-content: center;
+            flex-direction: column;
             align-items: center;
-            font-family: '-apple-system', BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            overflow-x: hidden;
-            padding: 20px;
+            justify-content: center;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow: hidden;
+            color: #fff;
+        }
+
+        /* Container & Page Management */
+        .card-container {
             position: relative;
+            width: 90%;
+            max-width: 450px;
+            min-height: 400px;
+            z-index: 10;
         }
 
-        /* Ambient background sparkles */
-        body::before {
-            content: "✨";
-            position: absolute;
-            font-size: 2rem;
-            top: 10%;
-            left: 8%;
-            opacity: 0.6;
-            animation: float 4s ease-in-out infinite alternate;
-        }
-
-        body::after {
-            content: "✨";
-            position: absolute;
-            font-size: 2rem;
-            bottom: 12%;
-            right: 8%;
-            opacity: 0.6;
-            animation: float 3.5s ease-in-out infinite alternate-reverse;
-        }
-
-        .card {
-            background: rgba(255, 255, 255, 0.98);
-            padding: 35px 25px;
-            border-radius: 24px;
-            box-shadow: 0 15px 35px rgba(255, 143, 163, 0.25);
-            text-align: center;
-            max-width: 440px;
-            width: 100%;
-            animation: fadeIn 1.2s ease-out, floatCard 4s ease-in-out infinite;
-            border: 1px solid rgba(255, 255, 255, 0.5);
-            z-index: 2;
-        }
-
-        .date-badge {
-            display: inline-block;
-            background: linear-gradient(135deg, #ff8fa3, #ff758f);
-            color: white;
-            padding: 6px 18px;
+        .page {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(15px);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            padding: 2.5rem;
             border-radius: 20px;
-            font-size: 0.85rem;
-            font-weight: 700;
-            margin-bottom: 15px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            box-shadow: 0 4px 10px rgba(255, 117, 143, 0.3);
-        }
-
-        h1 {
-            color: #ff4d6d;
-            font-size: 2.4rem;
-            margin-bottom: 4px;
-            font-weight: 800;
-            letter-spacing: -0.5px;
-        }
-
-        .age-text {
-            color: #a3a3a3;
-            font-size: 1.1rem;
-            font-weight: 600;
-            margin-bottom: 25px;
-            letter-spacing: 0.5px;
-        }
-
-        p {
-            color: #4a4a4a;
-            font-size: 1.02rem;
-            line-height: 1.65;
-            margin-bottom: 22px;
-            text-align: left;
-        }
-
-        .cake {
-            font-size: 4rem;
-            margin: 10px 0;
-            display: inline-block;
-            animation: bounce 2s infinite ease-in-out;
-        }
-
-        .closing-line {
             text-align: center;
-            font-weight: 700;
-            color: #ff5c7a;
-            margin-top: 25px;
-            margin-bottom: 0;
-            font-size: 1.05rem;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transform: scale(0.9) translateY(20px);
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Active Page State */
+        .page.active {
+            opacity: 1;
+            pointer-events: auto;
+            transform: scale(1) translateY(0);
         }
 
         /* Animations */
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        @keyframes floatCard {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-8px); }
-        }
-
         @keyframes float {
-            0% { transform: translateY(0) rotate(0deg); }
-            100% { transform: translateY(-15px) rotate(15deg); }
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
         }
 
-        @keyframes bounce {
-            0%, 100% { transform: scale(1) translateY(0); }
-            50% { transform: scale(1.08) translateY(-5px); }
+        .floating-card {
+            animation: float 4s ease-in-out infinite;
+        }
+
+        /* Typography & Style Elements */
+        h1 {
+            font-size: 2.4rem;
+            background: linear-gradient(45deg, #ff758c, #ff7eb3, #e94560);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1rem;
+        }
+
+        p {
+            font-size: 1.1rem;
+            color: #e0e0e0;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+
+        .highlight-num {
+            font-size: 4.5rem;
+            font-weight: 900;
+            color: #ffbe0b;
+            text-shadow: 0 0 20px rgba(255, 190, 11, 0.5);
+            margin-bottom: 0.5rem;
+        }
+
+        /* Decorative Polaroid Frame for Page 3 */
+        .polaroid {
+            background: white;
+            padding: 15px 15px 35px 15px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+            transform: rotate(-3deg);
+            margin-bottom: 1.5rem;
+            width: 200px;
+            height: 220px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 4px;
+        }
+        .polaroid-placeholder {
+            width: 100%;
+            height: 100%;
+            background: #e0e0e0;
+            color: #555;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            font-weight: bold;
+        }
+
+        /* Navigation Buttons */
+        .btn {
+            background: linear-gradient(45deg, #e94560, #ff758c);
+            border: none;
+            padding: 0.8rem 2rem;
+            color: white;
+            font-size: 1rem;
+            font-weight: bold;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(233, 69, 96, 0.4);
+            transition: all 0.3s ease;
+            margin-top: auto;
+        }
+
+        .btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(233, 69, 96, 0.6);
+        }
+
+        /* Floating Background Balloons */
+        .balloon {
+            position: absolute;
+            bottom: -150px;
+            width: 60px;
+            height: 75px;
+            z-index: 1;
+            animation: rise 9s linear infinite;
+        }
+        .balloon::after { content: "🎈"; font-size: 2.5rem; position: absolute; }
+        @keyframes rise {
+            0% { transform: translateY(0) translateX(0); opacity: 1; }
+            100% { transform: translateY(-120vh) translateX(80px); opacity: 0; }
         }
     </style>
 </head>
 <body>
 
-    <div class="card">
-        <div class="date-badge">July 31</div>
-        <div class="cake">🎂</div>
-        <h1>Happy Birthday!</h1>
-        <div class="age-text">Cheers to 18 Years</div>
-        
-        <p>Even though life has taken us in different directions and we don't talk anymore, I wanted to reach out and wish you the best on your special day.</p>
-        
-        <p>Today brought back a lot of memories of the times we used to share, and I genuinely look back on those moments with a lot of gratitude and warmth. We went through a lot together, and those memories still mean a lot to me.</p>
-        
-        <p>I truly hope that life is treating you incredibly well, that you are thriving in everything you do, and that you're surrounded by people who love and support you. I hope your day is filled with happiness, laughter, and everything you've been wishing for.</p>
-        
-        <p class="closing-line">
-            Cheers to a wonderful birthday and a beautiful, successful year ahead!
-        </p>
+    <div class="balloon" style="left: 15%; animation-delay: 0s; animation-duration: 8s;"></div>
+    <div class="balloon" style="left: 45%; animation-delay: 3s; animation-duration: 10s;"></div>
+    <div class="balloon" style="left: 75%; animation-delay: 1s; animation-duration: 7s;"></div>
+
+    <div class="card-container floating-card">
+
+        <div class="page active" id="page1">
+            <div class="highlight-num">✨</div>
+            <h1>Hey You...</h1>
+            <p>I built something incredibly special just for you. Are you ready to see what it is?</p>
+            <button class="btn" onclick="nextPage(2)">Let's Open It! ➔</button>
+        </div>
+
+        <div class="page" id="page2">
+            <h1>Happy Birthday! 🎂</h1>
+            <p>Wishing you an absolutely breathtaking day filled with beautiful moments, laughter, and everything your heart desires!</p>
+            <button class="btn" onclick="nextPage(3)">See Next Surprise ➔</button>
+        </div>
+
+        <div class="page" id="page3">
+            <h1>Precious Memories 📸</h1>
+            <div class="polaroid">
+                <div class="polaroid-placeholder">✨💝</div>
+            </div>
+            <p>Celebrating the incredible human being you are and all the joy you bring into the world every single day.</p>
+            <button class="btn" onclick="nextPage(4)">Read My Note ➔</button>
+        </div>
+
+        <div class="page" id="page4">
+            <h1>A Special Note ✍️</h1>
+            <p style="font-style: italic; font-size: 1.05rem; max-height: 180px; overflow-y: auto; padding-right: 5px;">
+                "May this upcoming year bring you endless opportunities, bright smiles, and unforgettable adventures. Never forget how amazing and bright you shine. Have the happiest of birthdays!"
+            </p>
+            <button class="btn" onclick="nextPage(5)">One Last Thing... ➔</button>
+        </div>
+
+        <div class="page" id="page5">
+            <div style="font-size: 4rem; margin-bottom: 1rem;">🧁✨</div>
+            <h1>Make A Wish!</h1>
+            <p>Click the celebration explosion below to close out the party with a massive burst!</p>
+            <button class="btn" onclick="triggerCelebration()">Celebrate Now! 🎉</button>
+        </div>
+
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <script>
+        // Page Navigation Logic
+        function nextPage(pageNum) {
+            // Hide all pages
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+            
+            // Show target page
+            const activePage = document.getElementById('page' + pageNum);
+            activePage.classList.add('active');
+
+            // Trigger burst effects automatically on major pages
+            if(pageNum === 2) {
+                confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
+            }
+            if(pageNum === 5) {
+                confetti({ particleCount: 50, angle: 60, spread: 55, origin: { x: 0 } });
+                confetti({ particleCount: 50, angle: 120, spread: 55, origin: { x: 1 } });
+            }
+        }
+
+        // Custom Click Button Explosion for Page 5
+        function triggerCelebration() {
+            var duration = 3 * 1000;
+            var end = Date.now() + duration;
+
+            (function frame() {
+                confetti({ particleCount: 5, angle: 60, spread: 55, origin: { x: 0 } });
+                confetti({ particleCount: 5, angle: 120, spread: 55, origin: { x: 1 } });
+
+                if (Date.now() < end) {
+                    requestAnimationFrame(frame);
+                }
+            }());
+        }
+    </script>
 </body>
 </html>
+
