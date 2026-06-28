@@ -1,279 +1,301 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>A Special Surprise For You ✨</title>
-    <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
 
-        body {
-            background: linear-gradient(135deg, #1a1a2e, #16213e, #0f3460);
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            overflow: hidden;
-            color: #fff;
-        }
-
-        /* Container & Page Management */
-        .card-container {
+<!DOCTYPE html> 
+<html lang="en"> 
+<head> 
+    <meta charset="UTF-8"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+    <title>Birthday Surprise!</title> 
+    <style> 
+        * { box-sizing: border-box; } 
+        
+        body { 
+            background: linear-gradient(-45deg, #ffeef8, #e6e6fa, #ffd3eb, #d6e4ff);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            min-height: 100vh; 
+            margin: 0; 
+            overflow: hidden; 
+            padding: 20px; 
             position: relative;
-            width: 90%;
-            max-width: 450px;
-            min-height: 440px;
-            z-index: 10;
+        } 
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
 
-        .page {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(15px);
-            border: 2px solid rgba(255, 255, 255, 0.2);
-            padding: 2.5rem;
-            border-radius: 20px;
+        .card { 
+            background: rgba(255, 255, 255, 0.85); 
+            backdrop-filter: blur(12px); 
+            padding: 40px 30px; 
+            border-radius: 24px; 
+            box-shadow: 0 20px 50px rgba(234, 185, 211, 0.5); 
+            text-align: center; 
+            max-width: 500px; 
+            width: 100%; 
+            border: 1px solid rgba(255, 255, 255, 0.7); 
+            position: relative; 
+            z-index: 10; 
+            animation: cardPopIn 1s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        } 
+
+        @keyframes cardPopIn {
+            0% { opacity: 0; transform: scale(0.6) translateY(50px); }
+            100% { opacity: 1; transform: scale(1) translateY(0); }
+        }
+
+        .princess-title {
+            font-family: 'Georgia', serif;
+            color: #d1528b;
+            font-size: 2rem;
+            font-style: italic;
+            margin-bottom: 20px;
+            font-weight: bold;
             text-align: center;
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-            position: absolute;
-            width: 100%;
-            height: 100%;
+            text-shadow: 0 0 10px rgba(209, 82, 139, 0.2);
+            animation: glowText 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes glowText {
+            0% { text-shadow: 0 0 5px #ffb3d9, 0 0 10px #ffb3d9; }
+            100% { text-shadow: 0 0 15px #ff79c6, 0 0 25px #ff79c6; }
+        }
+        
+        .puzzle-box {
+            background: rgba(255, 240, 248, 0.8);
+            padding: 25px;
+            border-radius: 15px;
+            border: 1px solid #fbc5db;
+        }
+
+        .puzzle-box p {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #4a3742;
+            margin-top: 0;
+            margin-bottom: 25px;
+        }
+        
+        .options-container {
             display: flex;
             flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            opacity: 0;
-            pointer-events: none;
-            transform: scale(0.9) translateY(20px);
-            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            gap: 15px;
+            margin-bottom: 10px;
         }
 
-        /* Active Page State */
-        .page.active {
-            opacity: 1;
-            pointer-events: auto;
-            transform: scale(1) translateY(0);
-        }
-
-        /* Animations */
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
-        }
-
-        .floating-card {
-            animation: float 4s ease-in-out infinite;
-        }
-
-        /* Typography & Style Elements */
-        h1 {
-            font-size: 2.2rem;
-            background: linear-gradient(45deg, #ff758c, #ff7eb3, #e94560);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 1rem;
-        }
-
-        p {
-            font-size: 1.05rem;
-            color: #e0e0e0;
-            line-height: 1.6;
-            margin-bottom: 1.5rem;
-        }
-
-        .highlight-num {
-            font-size: 4.5rem;
-            font-weight: 900;
-            color: #ffbe0b;
-            text-shadow: 0 0 20px rgba(255, 190, 11, 0.5);
-            margin-bottom: 0.5rem;
-        }
-
-        /* Quiz input styling */
-        .quiz-input {
-            width: 80%;
-            padding: 0.8rem;
-            border-radius: 25px;
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            background: rgba(0, 0, 0, 0.2);
-            color: white;
-            text-align: center;
+        .option-btn {
+            background: #ffffff;
+            color: #4a3742;
+            border: 2px solid #fbc5db;
+            padding: 14px;
             font-size: 1.1rem;
-            margin-bottom: 1.5rem;
-            outline: none;
-            transition: border-color 0.3s;
-        }
-
-        .quiz-input:focus {
-            border-color: #ff758c;
-        }
-
-        /* Decorative Polaroid Frame for Page 3 */
-        .polaroid {
-            background: white;
-            padding: 15px 15px 35px 15px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
-            transform: rotate(-3deg);
-            margin-bottom: 1.5rem;
-            width: 180px;
-            height: 200px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 4px;
-        }
-        .polaroid-placeholder {
-            width: 100%;
-            height: 100%;
-            background: #e0e0e0;
-            color: #555;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2.5rem;
-            font-weight: bold;
-        }
-
-        /* Navigation Buttons */
-        .btn {
-            background: linear-gradient(45deg, #e94560, #ff758c);
-            border: none;
-            padding: 0.8rem 2rem;
-            color: white;
-            font-size: 1rem;
-            font-weight: bold;
-            border-radius: 50px;
+            border-radius: 15px;
             cursor: pointer;
-            box-shadow: 0 4px 15px rgba(233, 69, 96, 0.4);
-            transition: all 0.3s ease;
-            margin-top: auto;
+            font-weight: 600;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
         }
 
-        .btn:hover {
-            transform: scale(1.05);
-            box-shadow: 0 6px 20px rgba(233, 69, 96, 0.6);
+        .option-btn:hover {
+            background: linear-gradient(135deg, #ff79c6 0%, #d1528b 100%); 
+            color: white;
+            border-color: transparent;
+            transform: translateY(-3px) scale(1.03);
+            box-shadow: 0 8px 20px rgba(209, 82, 139, 0.3);
         }
 
-        /* Floating Background Balloons */
-        .balloon {
-            position: absolute;
-            bottom: -150px;
-            width: 60px;
-            height: 75px;
-            z-index: 1;
-            animation: rise 9s linear infinite;
+        .error-msg { color: #e74c3c; font-size: 0.95rem; margin-top: 15px; display: none; font-weight: 600; }
+        
+        .shake { animation: shake 0.4s ease-in-out; }
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            20%, 60% { transform: translateX(-10px); }
+            40%, 80% { transform: translateX(10px); }
         }
-        .balloon::after { content: "🎈"; font-size: 2.5rem; position: absolute; }
-        @keyframes rise {
-            0% { transform: translateY(0) translateX(0); opacity: 1; }
-            100% { transform: translateY(-120vh) translateX(80px); opacity: 0; }
+
+        .secret-message { 
+            display: none; 
+            margin-top: 10px; 
+            padding: 25px; 
+            background: rgba(255, 255, 255, 0.95); 
+            border-left: 5px solid #ff79c6; 
+            border-radius: 12px; 
+            color: #34495e; 
+            font-size: 1.1rem; 
+            line-height: 1.8; 
+            text-align: left; 
+            box-shadow: inset 0 2px 10px rgba(0,0,0,0.05); 
+            animation: slideDown 1s cubic-bezier(0.19, 1, 0.22, 1) forwards; 
+        } 
+
+        @keyframes slideDown { 
+            from { opacity: 0; transform: translateY(-30px); } 
+            to { opacity: 1; transform: translateY(0); } 
+        } 
+
+        .floating-element { 
+            position: absolute; 
+            bottom: -60px; 
+            cursor: default; 
+            user-select: none; 
+            pointer-events: none;
+            z-index: 1; 
+        } 
+
+        @keyframes floatUp { 
+            0% { transform: translateY(0) rotate(0deg) scale(0.5); opacity: 0; } 
+            15% { opacity: 0.9; } 
+            85% { opacity: 0.9; } 
+            100% { transform: translateY(-110vh) rotate(360deg) scale(1.2); opacity: 0; } 
+        } 
+
+        @keyframes fallDown {
+            0% { transform: translateY(-10vh) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.4; }
+            90% { opacity: 0.4; }
+            100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
         }
-    </style>
-</head>
-<body>
+    </style> 
+</head> 
+<body> 
 
-    <div class="balloon" style="left: 15%; animation-delay: 0s; animation-duration: 8s;"></div>
-    <div class="balloon" style="left: 45%; animation-delay: 3s; animation-duration: 10s;"></div>
-    <div class="balloon" style="left: 75%; animation-delay: 1s; animation-duration: 7s;"></div>
-
-    <div class="card-container floating-card">
-
-        <div class="page active" id="page1">
-            <div style="font-size: 3.5rem; margin-bottom: 0.5rem;">🔒📱</div>
-            <h1>Identity Check!</h1>
-            <p>To unlock your birthday card, prove it's really you! What is the exact date of our very first meetup? (Use MM-DD format)</p>
-            <input type="text" id="quizAnswer" class="quiz-input" placeholder="Hint: XX-XX">
-            <button class="btn" onclick="checkQuiz()">Unlock Surprise ➔</button>
-        </div>
-
-        <div class="page" id="page2">
-            <div class="highlight-num">18</div>
-            <h1>Happy Birthday! 🎂</h1>
-            <p>Wishing you an absolutely breathtaking day filled with beautiful moments, laughter, and everything your heart desires!</p>
-            <button class="btn" onclick="nextPage(3)">See Next Surprise ➔</button>
-        </div>
-
-        <div class="page" id="page3">
-            <h1>Precious Memories 📸</h1>
-            <div class="polaroid">
-                <div class="polaroid-placeholder">✨💝</div>
+<div class="card"> 
+    <div id="puzzleContainer" class="puzzle-box">
+        <div id="quiz1">
+            <p>❤️ Question 1: <br>Do u love me till now?</p>
+            <div class="options-container">
+                <button class="option-btn" onclick="checkQuiz1('maybe')">Maybe 🤷‍♀️</button>
+                <button class="option-btn" onclick="checkQuiz1('yes')">Yes 🥰</button>
+                <button class="option-btn" onclick="checkQuiz1('no')">No 😢</button>
             </div>
-            <p>Celebrating the incredible human being you are and all the joy you bring into the world every single day.</p>
-            <button class="btn" onclick="nextPage(4)">Read My Note ➔</button>
         </div>
 
-        <div class="page" id="page4">
-            <h1>A Special Note ✍️</h1>
-            <p style="font-style: italic; font-size: 0.95rem; max-height: 220px; overflow-y: auto; padding-right: 5px; text-align: left;">
-                Even though life has taken us in different directions and we don't talk anymore, I wanted to reach out and wish you the best on your special day. Today brought back a lot of memories of the times we used to share, and I genuinely look back on those moments with a lot of gratitude and warmth. We went through a lot together, and those memories still mean a lot to me.<br><br>
-                I truly hope that life is treating you incredibly well, that you are thriving in everything you do, and that you're surrounded by people who love and support you. I hope your day is filled with happiness, laughter, and everything you've been wishing for.<br><br>
-                Cheers to a wonderful birthday and a beautiful, successful year ahead!
-            </p>
-            <button class="btn" onclick="nextPage(5)">One Last Thing... ➔</button>
+        <div id="quiz2" style="display: none;">
+            <p>📅 Question 2: <br>When was our first meet up?</p>
+            <div class="options-container">
+                <button class="option-btn" onclick="checkQuiz2('wrong1')">10-15 🍂</button>
+                <button class="option-btn" onclick="checkQuiz2('correct')">11-24 ✨</button>
+                <button class="option-btn" onclick="checkQuiz2('wrong2')">12-05 ❄️</button>
+            </div>
         </div>
 
-        <div class="page" id="page5">
-            <div style="font-size: 4rem; margin-bottom: 1rem;">🧁✨</div>
-            <h1>Make A Wish!</h1>
-            <p>Click the celebration explosion below to close out the party with a massive burst!</p>
-            <button class="btn" onclick="triggerCelebration()">Celebrate Now! 🎉</button>
-        </div>
-
+        <div id="error" class="error-msg">Incorrect choice! Think carefully and try again. 💕</div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-    <script>
-        // Quiz Verification Logic
-        function checkQuiz() {
-            const userAnswer = document.getElementById('quizAnswer').value.trim();
+    <div id="surprise" class="secret-message"> 
+        <div class="princess-title">✨ Happy birthday to my princess ✨</div>
+        Happy Birthday! I wanted to take a moment to reach out and wish you an absolutely wonderful day. Even though our paths have gone in different directions and we don't really talk anymore, I still look back on the memories and the good times we shared with a lot of appreciation. <br><br> 
+        I truly want nothing but the best for you. I hope this coming year brings you a ton of happiness, peace, new opportunities, and success in everything you're working toward. I hope you have an amazing time celebrating today surrounded by people who love and support you. Happy Birthday! ✨🎉 
+    </div> 
+</div> 
+
+<script> 
+    function createBackgroundHearts() {
+        for(let i=0; i<15; i++) {
+            setTimeout(() => {
+                const heart = document.createElement('div');
+                heart.innerText = '💗';
+                heart.style.position = 'absolute';
+                heart.style.fontSize = Math.random() * 15 + 10 + 'px';
+                heart.style.left = Math.random() * 100 + 'vw';
+                heart.style.top = '-50px';
+                heart.style.pointerEvents = 'none';
+                heart.style.animation = `fallDown ${Math.random() * 5 + 6}s linear infinite`;
+                document.body.appendChild(heart);
+            }, i * 600);
+        }
+    }
+    window.onload = createBackgroundHearts;
+
+    function playChime() {
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        const notes = [
+            {f: 261.63, d: 0.25}, {f: 329.63, d: 0.25}, {f: 392.00, d: 0.25}, 
+            {f: 523.25, d: 0.4}, {f: 587.33, d: 0.2}, {f: 659.25, d: 0.7}
+        ];
+        
+        let time = audioCtx.currentTime;
+        notes.forEach(note => {
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(note.f, time);
             
-            if (userAnswer === "11-24") {
-                nextPage(2);
-            } else {
-                alert("❌ Wrong date! Think carefully and try again! 🤔");
-            }
-        }
-
-        // Page Navigation Logic
-        function nextPage(pageNum) {
-            document.querySelectorAll('.page').forEach(page => {
-                page.classList.remove('active');
-            });
+            gain.gain.setValueAtTime(0.15, time);
+            gain.gain.exponentialRampToValueAtTime(0.00001, time + note.d);
             
-            const activePage = document.getElementById('page' + pageNum);
-            activePage.classList.add('active');
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+            osc.start(time);
+            osc.stop(time + note.d);
+            time += note.d * 0.7; 
+        });
+    }
 
-            if(pageNum === 2) {
-                confetti({ particleCount: 150, spread: 80, origin: { y: 0.6 } });
-            }
-            if(pageNum === 5) {
-                confetti({ particleCount: 50, angle: 60, spread: 55, origin: { x: 0 } });
-                confetti({ particleCount: 50, angle: 120, spread: 55, origin: { x: 1 } });
-            }
+    function triggerShake() {
+        const error = document.getElementById('error');
+        const container = document.getElementById('puzzleContainer');
+        error.style.display = 'block';
+        container.classList.add('shake');
+        setTimeout(() => container.classList.remove('shake'), 400);
+    }
+
+    function checkQuiz1(chosenOption) {
+        const error = document.getElementById('error');
+        if (chosenOption === 'yes') {
+            error.style.display = 'none';
+            document.getElementById('quiz1').style.display = 'none';
+            document.getElementById('quiz2').style.display = 'block';
+        } else {
+            triggerShake();
         }
+    }
 
-        // Custom Click Button Explosion for Page 5
-        function triggerCelebration() {
-            var duration = 3 * 1000;
-            var end = Date.now() + duration;
-
-            (function frame() {
-                confetti({ particleCount: 5, angle: 60, spread: 55, origin: { x: 0 } });
-                confetti({ particleCount: 5, angle: 120, spread: 55, origin: { x: 1 } });
-
-                if (Date.now() < end) {
-                    requestAnimationFrame(frame);
-                }
-            }());
+    function checkQuiz2(chosenOption) {
+        const error = document.getElementById('error');
+        if (chosenOption === 'correct') {
+            error.style.display = 'none';
+            playChime();
+            revealSurprise();
+        } else {
+            triggerShake();
         }
-    </script>
-</body>
+    }
+
+    function revealSurprise() { 
+        document.getElementById('puzzleContainer').style.display = 'none';
+        const message = document.getElementById('surprise'); 
+        message.style.display = 'block'; 
+
+        for (let i = 0; i < 70; i++) { 
+            setTimeout(createFloatingElement, i * 60); 
+        } 
+    } 
+
+    function createFloatingElement() { 
+        const emojis = ['✨', '🎈', '🎉', '🌸', '👑', '❤️', '💝', '🎂', '🍭']; 
+        const element = document.createElement('div'); 
+        element.classList.add('floating-element'); 
+        
+        element.innerText = emojis[Math.floor(Math.random() * emojis.length)]; 
+        element.style.left = Math.random() * 100 + 'vw'; 
+        element.style.fontSize = Math.random() * 20 + 20 + 'px';
+        element.style.animation = `floatUp ${Math.random() * 2 + 2.5}s cubic-bezier(0.25, 1, 0.5, 1) forwards`; 
+        document.body.appendChild(element); 
+        
+        setTimeout(() => { 
+            element.remove(); 
+        }, 4500); 
+    } 
+</script> 
+</body> 
 </html>
+
 
 
 
