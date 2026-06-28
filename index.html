@@ -1,154 +1,265 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Happy Birthday!</title>
+    <title>A Special Birthday Quiz for You ❤️</title>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <style>
-        * {
-            box-sizing: border-box;
-        }
         body {
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            background: linear-gradient(135deg, #ffe5ec 0%, #c9e4de 100%);
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             display: flex;
             justify-content: center;
             align-items: center;
-            min-height: 100vh;
+            height: 100vh;
             margin: 0;
-            overflow-x: hidden;
-            padding: 20px;
+            overflow: hidden;
         }
+
         .card {
-            background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(10px);
+            background: white;
             padding: 40px 30px;
             border-radius: 24px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.08);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
             text-align: center;
-            max-width: 500px;
-            width: 100%;
-            border: 1px solid rgba(255, 255, 255, 0.5);
+            width: 360px;
+            min-height: 280px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
             position: relative;
-            z-index: 10;
-            transition: all 0.5s ease;
         }
-        h1 {
-            color: #2c3e50;
-            font-size: 2.2rem;
-            margin-top: 0;
-            margin-bottom: 15px;
-        }
-        .intro-text {
-            color: #7f8c8d;
-            font-size: 1.1rem;
-            line-height: 1.5;
-            margin-bottom: 25px;
-        }
-        .secret-message {
+
+        .screen {
             display: none;
-            margin-top: 25px;
-            padding: 25px;
-            background: rgba(255, 255, 255, 0.9);
-            border-left: 4px solid #95a5a6;
-            border-radius: 12px;
-            color: #34495e;
-            font-size: 1.05rem;
-            line-height: 1.7;
-            text-align: left;
-            box-shadow: inset 0 2px 8px rgba(0,0,0,0.02);
-            animation: slideDown 0.8s forwards ease-out;
+            width: 100%;
         }
-        button {
-            background: linear-gradient(135deg, #747d8c 0%, #57606f 100%);
+
+        .active {
+            display: block;
+        }
+
+        .page-indicator {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 0.85rem;
+            color: #aaa;
+            font-weight: bold;
+        }
+
+        h2 {
+            color: #ff6b6b;
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+            margin-top: 10px;
+        }
+
+        p {
+            color: #555;
+            font-size: 1.15rem;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .emoji-deco {
+            font-size: 3.5rem;
+            margin-bottom: 10px;
+        }
+
+        input[type="text"] {
+            width: 85%;
+            padding: 12px;
+            font-size: 1rem;
+            border: 2px solid #eee;
+            border-radius: 12px;
+            margin-bottom: 10px;
+            text-align: center;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        input[type="text"]:focus {
+            border-color: #ff6b6b;
+        }
+
+        .button {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ff8e8e 100%);
             color: white;
             border: none;
-            padding: 14px 32px;
+            padding: 12px 30px;
             font-size: 1.05rem;
-            font-weight: 600;
-            border-radius: 30px;
+            font-weight: bold;
+            border-radius: 50px;
             cursor: pointer;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.3);
+            transition: transform 0.2s, box-shadow 0.2s;
         }
-        button:hover {
+
+        .button:hover {
             transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
-            background: linear-gradient(135deg, #57606f 0%, #2f3542 100%);
+            box-shadow: 0 8px 20px rgba(255, 107, 107, 0.5);
         }
-        button:active {
-            transform: translateY(1px);
+
+        .error-msg {
+            color: #ff4757;
+            font-size: 0.9rem;
+            min-height: 20px;
+            margin: 5px 0;
+            visibility: hidden;
         }
-        /* Floating Element Animation */
-        .floating-element {
-            position: absolute;
-            bottom: -50px;
-            font-size: 24px;
-            cursor: default;
-            user-select: none;
-            animation: floatUp 4s linear forwards;
-            opacity: 0;
-            z-index: 1;
+
+        /* Birthday screen styling */
+        .cake-animation {
+            font-size: 5.5rem;
+            animation: bounce 2s infinite;
         }
-        @keyframes slideDown {
-            from { opacity: 0; transform: translateY(-15px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes floatUp {
-            0% { transform: translateY(0) rotate(0deg); opacity: 0; }
-            10% { opacity: 0.8; }
-            90% { opacity: 0.8; }
-            100% { transform: translateY(-100vh) rotate(360deg); opacity: 0; }
+
+        @keyframes bounce {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
         }
     </style>
 </head>
 <body>
 
     <div class="card">
-        <h1>🎂 Happy Birthday!</h1>
-        <p class="intro-text">Sending some genuinely good vibes your way today.</p>
         
-        <button id="actionBtn" onclick="revealSurprise()">Click to open message</button>
-        
-        <div id="surprise" class="secret-message">
-            Happy Birthday! I wanted to take a moment to reach out and wish you an absolutely wonderful day. Even though our paths have gone in different directions and we don't really talk anymore, I still look back on the memories and the good times we shared with a lot of appreciation. <br><br>
-            I truly want nothing but the best for you. I hope this coming year brings you a ton of happiness, peace, new opportunities, and success in everything you're working toward. I hope you have an amazing time celebrating today surrounded by people who love and support you. Happy Birthday! ✨🎉
+        <div id="page1" class="screen active">
+            <span class="page-indicator">1 / 6</span>
+            <div class="emoji-deco">✨</div>
+            <h2>Hey You!</h2>
+            <p>Before you get your birthday wishes, you have to pass a small quiz about us. Are you ready?</p>
+            <button class="button" onclick="nextPage(1, 2)">Let's Start! 🚀</button>
         </div>
+
+        <div id="page2" class="screen">
+            <span class="page-indicator">2 / 6</span>
+            <div class="emoji-deco">📅</div>
+            <h2>Question 1</h2>
+            <p>What is the date of our first meet up?</p>
+            <input type="text" id="ans1" placeholder="Format: MM-DD">
+            <div id="error1" class="error-msg">Hint: Think late November... 🤔</div>
+            <button class="button" onclick="checkQ1()">Submit</button>
+        </div>
+
+        <div id="page3" class="screen">
+            <span class="page-indicator">3 / 6</span>
+            <div class="emoji-deco">❤️</div>
+            <h2>Question 2</h2>
+            <p>Do you still love me?</p>
+            <input type="text" id="ans2" placeholder="Yes or No">
+            <div id="error2" class="error-msg">Wrong answer! Try typing 'yes' 😉</div>
+            <button class="button" onclick="checkQ2()">Submit</button>
+        </div>
+
+        <div id="page4" class="screen">
+            <span class="page-indicator">4 / 6</span>
+            <div class="emoji-deco">👑</div>
+            <h2>Question 3</h2>
+            <p>Who is the most amazing, wonderful, and luckiest person alive today?</p>
+            <input type="text" id="ans3" placeholder="Hint: Type 'You' or 'Me'">
+            <div id="error3" class="error-msg">Look in a mirror! Type 'me' or 'you' 🥰</div>
+            <button class="button" onclick="checkQ3()">Submit</button>
+        </div>
+
+        <div id="page5" class="screen">
+            <span class="page-indicator">5 / 6</span>
+            <div class="emoji-deco">🎁</div>
+            <h2>Question 4</h2>
+            <p>Are you ready to see your official birthday card?</p>
+            <input type="text" id="ans4" placeholder="Type 'yes' to open!">
+            <div id="error4" class="error-msg">You have to say yes! 🥳</div>
+            <button class="button" onclick="checkQ4()">Open Card! 🎉</button>
+        </div>
+
+        <div id="page6" class="screen">
+            <span class="page-indicator">6 / 6</span>
+            <div class="cake-animation">🎂</div>
+            <h2>Happy Birthday! 🎉</h2>
+            <p>You cleared the quiz perfectly! Thank you for being you. Wishing you the happiest, brightest year ahead! ✨💖</p>
+        </div>
+
     </div>
 
     <script>
-        function revealSurprise() {
-            // Show the message
-            const message = document.getElementById('surprise');
-            message.style.display = 'block';
-            
-            // Hide the button gracefully
-            const btn = document.getElementById('actionBtn');
-            btn.style.display = 'none';
-            
-            // Trigger floating celebratory emojis
-            for (let i = 0; i < 20; i++) {
-                setTimeout(createFloatingElement, i * 150);
+        // Standard function to swap screens
+        function nextPage(current, next) {
+            document.getElementById('page' + current).classList.remove('active');
+            document.getElementById('page' + next).classList.add('active');
+        }
+
+        // Check Page 2 (Question 1)
+        function checkQ1() {
+            const ans = document.getElementById('ans1').value.trim();
+            const error = document.getElementById('error1');
+            if (ans === '11-24') {
+                nextPage(2, 3);
+            } else {
+                error.style.visibility = 'visible';
             }
         }
 
-        function createFloatingElement() {
-            const emojis = ['✨', '🎈', '🎉', '🌸', '🍂'];
-            const element = document.createElement('div');
-            element.classList.add('floating-element');
-            
-            // Randomize look and feel
-            element.innerText = emojis[Math.floor(Math.random() * emojis.length)];
-            element.style.left = Math.random() * 100 + 'vw';
-            element.style.animationDuration = (Math.random() * 2 + 3) + 's'; // 3s to 5s
-            
-            document.body.appendChild(element);
-            
-            // Clean up memory
-            setTimeout(() => {
-                element.remove();
-            }, 5000);
+        // Check Page 3 (Question 2)
+        function checkQ2() {
+            const ans = document.getElementById('ans2').value.trim().toLowerCase();
+            const error = document.getElementById('error2');
+            if (ans === 'yes') {
+                nextPage(3, 4);
+            } else {
+                error.style.visibility = 'visible';
+            }
+        }
+
+        // Check Page 4 (Question 3)
+        function checkQ3() {
+            const ans = document.getElementById('ans3').value.trim().toLowerCase();
+            const error = document.getElementById('error3');
+            // Accepts 'me' or 'you'
+            if (ans === 'me' || ans === 'you') {
+                nextPage(4, 5);
+            } else {
+                error.style.visibility = 'visible';
+            }
+        }
+
+        // Check Page 5 (Question 4)
+        function checkQ4() {
+            const ans = document.getElementById('ans4').value.trim().toLowerCase();
+            const error = document.getElementById('error4');
+            if (ans === 'yes') {
+                nextPage(5, 6);
+                triggerInfiniteConfetti();
+            } else {
+                error.style.visibility = 'visible';
+            }
+        }
+
+        // Big celebration confetti blast!
+        function triggerInfiniteConfetti() {
+            var duration = 6 * 1000;
+            var end = Date.now() + duration;
+
+            (function frame() {
+                confetti({
+                    particleCount: 3,
+                    angle: 60,
+                    spread: 55,
+                    origin: { x: 0, y: 0.6 }
+                });
+                confetti({
+                    particleCount: 3,
+                    angle: 120,
+                    spread: 55,
+                    origin: { x: 1, y: 0.6 }
+                });
+
+                if (Date.now() < end) {
+                    requestAnimationFrame(frame);
+                }
+            }());
         }
     </script>
 
